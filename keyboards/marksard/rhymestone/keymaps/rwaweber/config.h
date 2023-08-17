@@ -25,3 +25,5 @@
 // #define MASTER_RIGHT
 
 #define OLED_FONT_H "keyboards/marksard/rhymestone/common/glcdfont.c"
+
+#define SSD1306OLED

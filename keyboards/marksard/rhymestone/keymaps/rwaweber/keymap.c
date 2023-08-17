@@ -34,7 +34,6 @@ enum custom_keycodes {
 // Base layer mod tap
 #define KC_Z_SF  LSFT_T(KC_Z)
 #define KC_SLSF  RSFT_T(KC_SLSH)
-#define KC_A_CTR LCTL_T(KC_A)
 
 // Lower layer mod tap
 #define KC_11SF  LSFT_T(KC_F11)
@@ -45,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,---------------------------------------------------------------------------------------------------.
           KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,
   //|---------+---------+---------+---------+---------+---------+---------+---------+---------+---------|
-      KC_A_CTR,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,   KC_ENT,
+          KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,   KC_ENT,
   //|---------+---------+---------+---------+---------+---------+---------+---------+---------+---------|
        KC_Z_SF,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,  KC_COMM,   KC_DOT,  KC_SLSF,
   //`---------+---------+---------+---------+---------+---------+---------+---------+---------+---------'
@@ -161,12 +160,9 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 
 bool oled_task_user(void) {
 
-  if (is_keyboard_master()) {
-    render_status();
-  } else {
-    render_logo();
-  }
-  return false;
+  dprintf("oled_task_user function called: %s", get_leyer_status());
+  render_logo();
+  return true;
 }
 
 #else
@@ -174,6 +170,12 @@ bool oled_task_user(void) {
 #define UPDATE_KEYMAP_STATUS()
 
 #endif
+
+void keyboard_post_init_user(void) {
+  wait_ms(2000);
+  debug_enable=true;
+  debug_keyboard=true;
+}
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
